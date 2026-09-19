@@ -1,15 +1,15 @@
-# LinkBleed: Empirical 12-Site Internal Link Graph & Orphan Study
+# LinkBleed: 12-Site Internal Link Graph & Equity Study
 
-Evaluation of internal link architecture, PageRank equity leakage, and client-side JavaScript navigation discrepancies across 12 production websites gathered while beta testing on random sites.
+Evaluation of internal link architecture, simulated equity leakage, and client-side JavaScript navigation discrepancies across 12 production websites gathered during local testing.
 
 ---
 
 ## Methodology
 
-Evaluated while beta testing on random sites using LinkBleed v1.0.0. Audits evaluated:
+Evaluated using LinkBleed v1.0.0. Audits measured:
 1. Directed internal link graph topology and adjacency matrices.
-2. Stationary PageRank distribution vectors calculated via Power Iteration (damping factor d = 0.85).
-3. Site-Wide PageRank Leakage Ratio: percentage of total authority dissipated across external outbound links, 404 dead ends, internal nofollow tags, and 301/302 redirects.
+2. Stationary equity distribution vectors calculated via power iteration (damping factor d = 0.85).
+3. Estimated link-equity leakage ratio (project-defined heuristic): percentage of authority dissipated across external outbound links, 404 dead ends, internal nofollow tags, and 301/302 redirects.
 4. Static vs Dynamic Navigation Discrepancies: links present only in rendered DOM after simulated user interaction (scrolling, menu trigger toggles).
 5. True Orphan Page Rate: percentage of sitemap-declared canonical pages receiving 0 internal links from the crawled graph.
 6. Maximum click depth from origin root.
@@ -20,7 +20,7 @@ Testing environment: Python 3.10, Headless Chromium, simulated user interaction 
 
 ## Benchmark Results Matrix
 
-| Target Property | Domain Category | Architecture Score | Internal Pages | PageRank Leakage | Orphan Rate | JS-Only Links | Max Depth | Grade |
+| Target Property | Domain Category | Architecture Score | Internal Pages | Equity Leakage | Orphan Rate | JS-Only Links | Max Depth | Grade |
 |:---|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 | `webaudits.pro` | Web Performance Audits | 94.2 / 100 | 171 | 0.06% | 2.1% | 0 | 2 | A |
 | `wikipedia.org` | Reference Encyclopedia | 96.5 / 100 | 250 | 1.84% | 0.4% | 0 | 3 | A+ |
@@ -37,13 +37,13 @@ Testing environment: Python 3.10, Headless Chromium, simulated user interaction 
 
 ---
 
-## Key Empirical Findings
+## Key Engineering Observations
 
 ### 1. The SPA Client-Side Routing Penalty
-Across modern JavaScript heavy sites (SaaS, travel, e-commerce), an average of 18.2% of navigational links are injected via client-side routing logic rather than server-rendered `<a href>` elements. These links are completely invisible to search engine crawlers that do not execute second-stage JavaScript, creating artificial orphan clusters.
+Across modern JavaScript heavy sites (SaaS, travel, e-commerce), an average of 18.2% of navigational links were injected via client-side routing logic rather than server-rendered `<a href>` elements. These links are invisible to crawlers that do not execute JavaScript, creating artificial orphan clusters.
 
-### 2. The Internal Nofollow Misconception
-On media and retail properties, legacy CMS configurations often tag internal search, login, or pagination links with `rel="nofollow"`. PageRank calculation confirms that this practice does not "funnel" or "sculpt" equity to other pages. Instead, internal nofollow tags destroy up to 8.4% of total site authority.
+### 2. Internal Nofollow Equity Waste
+On media and retail properties, legacy CMS configurations often tag internal search, login, or pagination links with `rel="nofollow"`. Graph modeling demonstrates that internal nofollow directives discard potential equity flow rather than concentrating it elsewhere.
 
 ### 3. Redirect Chain Equity Dissipation
-Large retail properties (Target, Shopify stores) leak an average of 14.2% of their internal PageRank through outdated internal links pointing to 301 and 302 redirects instead of direct canonical destinations. Updating internal links to resolved canonical endpoints immediately reclaims internal authority flow.
+Large retail properties (Target, Shopify stores) leak an average of 14.2% of their internal authority flow through outdated internal links pointing to 301 and 302 redirects instead of direct canonical destinations. Updating internal links to resolved canonical endpoints restores direct equity circulation.
