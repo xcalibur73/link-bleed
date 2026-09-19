@@ -4,6 +4,8 @@ Internal link graph and orphan page discovery engine.
 
 Part of the [WebAudits.pro](https://webaudits.pro) technical intelligence platform.
 
+![Terminal Verification](assets/terminal_preview.png)
+
 ---
 
 ## Quickstart
