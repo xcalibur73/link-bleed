@@ -47,13 +47,21 @@ def run_audit(
 
 
 def main():
+    from link_bleed import __version__
     parser = argparse.ArgumentParser(
+        prog="link-bleed",
         description="LinkBleed: The Internal Link Graph & Orphan Page Discovery Engine",
         epilog="Example: python run.py https://webaudits.pro --max-pages 20",
     )
     parser.add_argument(
         "url",
+        nargs="?",
         help="Target URL or domain root to audit for internal link architecture and PageRank leakage.",
+    )
+    parser.add_argument(
+        "--version",
+        action="version",
+        version=f"LinkBleed v{__version__}",
     )
     parser.add_argument(
         "--fast",
@@ -91,6 +99,9 @@ def main():
     )
 
     args = parser.parse_args()
+    if not args.url:
+        parser.print_help()
+        return 0
 
     target_url = args.url.strip()
     if not target_url.startswith("http://") and not target_url.startswith("https://"):

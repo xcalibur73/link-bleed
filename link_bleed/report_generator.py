@@ -16,6 +16,24 @@ except ImportError:
     HAS_RICH = False
 
 
+def _safe_str(text: Any) -> str:
+    if not isinstance(text, str):
+        text = str(text or "")
+    text = (
+        text.replace("\u2192", "->")
+        .replace("\u2190", "<-")
+        .replace("\u2194", "<->")
+        .replace("\u2022", "*")
+        .replace("\u2019", "'")
+        .replace("\u2018", "'")
+        .replace("\u201c", '"')
+        .replace("\u201d", '"')
+        .replace("\u2014", "-")
+        .replace("\u2013", "-")
+    )
+    return text.encode("ascii", errors="replace").decode("ascii")
+
+
 def print_terminal_report(audit_result: Dict[str, Any]) -> None:
     """Print complete internal link graph audit report to terminal."""
     if not HAS_RICH:
@@ -24,7 +42,7 @@ def print_terminal_report(audit_result: Dict[str, Any]) -> None:
 
     console = Console()
 
-    url = audit_result.get("url", "")
+    url = _safe_str(audit_result.get("url", ""))
     score = audit_result.get("overall_score", 0.0)
     grade = audit_result.get("grade", "F")
     graph = audit_result.get("graph_analysis", {})
@@ -107,7 +125,7 @@ def print_terminal_report(audit_result: Dict[str, Any]) -> None:
 
         for p in top_pages[:6]:
             top_table.add_row(
-                p.get("url", ""),
+                _safe_str(p.get("url", "")),
                 str(p.get("in_links", 0)),
                 str(p.get("out_links", 0)),
                 str(p.get("depth", 0)),
@@ -123,7 +141,7 @@ def print_terminal_report(audit_result: Dict[str, Any]) -> None:
         orphan_table.add_column("In Sitemap", justify="center", style="white")
         orphan_table.add_column("PageRank", justify="right", style="dim")
         for o in orphans[:5]:
-            orphan_table.add_row(o.get("url", ""), str(o.get("in_sitemap", False)), str(o.get("pagerank", 0.0)))
+            orphan_table.add_row(_safe_str(o.get("url", "")), str(o.get("in_sitemap", False)), str(o.get("pagerank", 0.0)))
         console.print(orphan_table)
 
     js_pages = graph.get("js_only_pages", [])
@@ -132,7 +150,7 @@ def print_terminal_report(audit_result: Dict[str, Any]) -> None:
         js_table.add_column("Dynamic Target URL", style="yellow")
         js_table.add_column("Dynamic Inbound Links", justify="center", style="white")
         for j in js_pages[:5]:
-            js_table.add_row(j.get("url", ""), str(j.get("dynamic_inlinks_count", 0)))
+            js_table.add_row(_safe_str(j.get("url", "")), str(j.get("dynamic_inlinks_count", 0)))
         console.print(js_table)
 
     # Remediation Plan
@@ -142,7 +160,7 @@ def print_terminal_report(audit_result: Dict[str, Any]) -> None:
         rec_table.add_column("Priority", justify="center", style="bold yellow")
         rec_table.add_column("Recommended Action", style="white")
         for idx, rec in enumerate(recs, 1):
-            rec_table.add_row(str(idx), rec)
+            rec_table.add_row(str(idx), _safe_str(rec))
         console.print(rec_table)
 
 

@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "link-bleed"
+version = "1.0.0"
+description = "Internal link graph and orphan page discovery engine with power iteration PageRank"
+readme = "README.md"
+authors = [
+  { name = "xcalibur73" }
+]
+license = { text = "MIT" }
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Internet :: WWW/HTTP :: Indexing/Search",
+    "Topic :: Software Development :: Quality Assurance"
+]
+requires-python = ">=3.10"
+dependencies = [
+    "requests>=2.31.0",
+    "beautifulsoup4>=4.12.0",
+    "rich>=13.7.0",
+    "websockets>=12.0"
+]
+
+[project.scripts]
+link-bleed = "link_bleed.cli:main"
+
+[project.urls]
+"Homepage" = "https://github.com/xcalibur73/link-bleed"
+"Cloud Engine" = "https://webaudits.pro/tools/link-bleed"
+"Bug Tracker" = "https://github.com/xcalibur73/link-bleed/issues"

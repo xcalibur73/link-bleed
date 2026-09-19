@@ -3,6 +3,9 @@ Comprehensive unit tests for LinkBleed: URL normalization, link extraction, Page
 """
 
 import unittest
+import os
+import sys
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from link_bleed.crawler import normalize_url, is_internal_url, extract_static_links
 from link_bleed.graph import compute_pagerank, analyze_link_graph
 from link_bleed.scorer import (
