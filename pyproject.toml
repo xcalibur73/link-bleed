@@ -31,6 +31,11 @@ dependencies = [
 [project.scripts]
 link-bleed = "link_bleed.cli:main"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["link_bleed*"]
+exclude = ["assets*", "tests*"]
+
 [project.urls]
 "Homepage" = "https://github.com/xcalibur73/link-bleed"
 "Cloud Engine" = "https://webaudits.pro/tools/link-bleed"
