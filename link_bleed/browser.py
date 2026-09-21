@@ -114,6 +114,8 @@ class ChromeRunner:
             "--mute-audio",
             "--disable-background-networking",
             "--window-size=1440,900",
+            "--disable-blink-features=AutomationControlled",
+            "--disable-features=IsolateOrigins,site-per-process",
             "about:blank",
         ]
 
