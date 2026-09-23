@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "link-bleed"
-version = "1.0.0"
+version = "1.0.2"
 description = "Internal link graph and orphan page discovery engine with power iteration PageRank"
 readme = "README.md"
 authors = [

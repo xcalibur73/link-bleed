@@ -114,11 +114,17 @@ def extract_static_links(html: str, page_url: str) -> List[Dict[str, Any]]:
             continue
 
         anchor_text = a.get_text(separator=" ", strip=True)
-        # If no text, check image alt inside anchor
+        # If no text, check image alt inside anchor, aria-label, or title
         if not anchor_text:
             img = a.find("img", alt=True)
             if img:
                 anchor_text = f"[Image: {img['alt'].strip()}]"
+            elif a.get("aria-label"):
+                anchor_text = a["aria-label"].strip()
+            elif a.find(attrs={"aria-label": True}):
+                anchor_text = a.find(attrs={"aria-label": True})["aria-label"].strip()
+            elif a.get("title"):
+                anchor_text = a["title"].strip()
 
         rel = a.get("rel", [])
         if isinstance(rel, list):
@@ -169,9 +175,11 @@ def parse_sitemap_urls(sitemap_url: str, timeout: int = 15) -> List[str]:
             for url_tag in root.findall(f"{ns}url"):
                 loc = url_tag.find(f"{ns}loc")
                 if loc is not None and loc.text:
-                    norm = normalize_url(loc.text.strip())
-                    if norm:
-                        urls.append(norm)
+                    loc_text = loc.text.strip()
+                    if not loc_text.lower().endswith((".xml", ".xml.gz")):
+                        norm = normalize_url(loc_text)
+                        if norm:
+                            urls.append(norm)
     except Exception:
         pass
     return list(dict.fromkeys(urls))

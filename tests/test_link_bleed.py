@@ -58,6 +58,28 @@ class TestLinkBleedCrawler(unittest.TestCase):
         features_link = next(l for l in links if "/features" in l["target_url"])
         self.assertEqual(features_link["anchor_text"], "[Image: Product Features]")
 
+    def test_extract_static_links_aria_label_and_title(self):
+        html = """
+        <html>
+            <body>
+                <a href="/dashboard" aria-label="Go to User Dashboard"><svg></svg></a>
+                <a href="/settings" title="Account Settings"><i></i></a>
+                <a href="/profile"><span aria-label="View Profile"></span></a>
+            </body>
+        </html>
+        """
+        links = extract_static_links(html, "https://example.com/")
+        self.assertEqual(len(links), 3)
+
+        dash_link = next(l for l in links if "/dashboard" in l["target_url"])
+        self.assertEqual(dash_link["anchor_text"], "Go to User Dashboard")
+
+        settings_link = next(l for l in links if "/settings" in l["target_url"])
+        self.assertEqual(settings_link["anchor_text"], "Account Settings")
+
+        profile_link = next(l for l in links if "/profile" in l["target_url"])
+        self.assertEqual(profile_link["anchor_text"], "View Profile")
+
 
 class TestLinkBleedGraphAndPageRank(unittest.TestCase):
 
