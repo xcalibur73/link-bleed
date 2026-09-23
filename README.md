@@ -5,8 +5,9 @@
 
 
 Internal link graph and orphan page discovery engine.
-
 Part of the [WebAudits.pro](https://webaudits.pro) technical intelligence platform.
+
+> **Interactive Web Tool**: Run live internal link graph and orphan URL audits directly in your browser at [webaudits.pro/tools/link-bleed](https://webaudits.pro/tools/link-bleed).
 
 ![Terminal Verification](assets/terminal_preview.png)
 

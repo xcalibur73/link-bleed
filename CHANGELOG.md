@@ -12,6 +12,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed false positive in static anchor extraction: added fallback support for `aria-label`, child `[aria-label]`, and `title` attributes on icon and SVG links to prevent valid descriptive anchors from being reported as empty.
 - Filtered `.xml` and `.xml.gz` URLs during XML sitemap parsing to prevent sub-sitemaps from being crawled as orphan page nodes.
 
+### Added
+- Linked documentation and quickstart instructions to the interactive web tool on [webaudits.pro/tools/link-bleed](https://webaudits.pro/tools/link-bleed).
+
 ## [1.0.1] - 2026-09-21
 
 ### Added
